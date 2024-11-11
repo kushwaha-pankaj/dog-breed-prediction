@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dog Breed Prediction</title>
+  <!-- Favicon -->
+  <link rel="icon" href="https://img.icons8.com/ios-filled/50/000000/dog.png" type="image/x-icon">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+  <style>
+    /* General Styles for Layout */
+    html, body {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+    }
+    .content {
+      flex: 1; /* Takes up remaining space to push footer down */
+    }
+    
+    /* Main Styles */
+    body {
+      background-color: #f5f7fa;
+      font-family: Arial, sans-serif;
+    }
+    .card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background-color: #ffffff;
+      padding: 2rem;
+      transition: transform 0.2s ease-in-out;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    .btn-primary, .btn-danger {
+      border-radius: 25px;
+      font-weight: bold;
+      padding: 12px 20px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .btn-primary {
+      background-image: linear-gradient(135deg, #6c5ce7, #a29bfe);
+      border: none;
+      color: white;
+    }
+    .btn-primary:hover {
+      background-image: linear-gradient(135deg, #4834d4, #6c5ce7);
+      color: #ffffff;
+    }
+    .btn-danger {
+      background-color: #ff7675;
+      border: none;
+      color: white;
+    }
+    .btn-danger:hover {
+      background-color: #d63031;
+      color: #ffffff;
+    }
+    .output-img, .preview-img {
+      max-height: 300px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+    #outputArea, #clearButton, #previewArea {
+      display: none;
+    }
+    .custom-upload {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+    .custom-upload label {
+      background-image: linear-gradient(135deg, #81ecec, #74b9ff);
+      padding: 10px 20px;
+      color: #2d3436;
+      cursor: pointer;
+      border-radius: 20px;
+      transition: background-color 0.3s ease;
+    }
+    .custom-upload label:hover {
+      background-image: linear-gradient(135deg, #74b9ff, #81ecec);
+    }
+    .header-links .link-btn {
+      display: inline-flex;
+      align-items: center;
+      margin-left: 10px;
+      padding: 8px 20px;
+      font-weight: bold;
+      border-radius: 25px;
+      text-decoration: none;
+      transition: transform 0.2s ease;
+      color: white;
+    }
+    .header-links .github-btn {
+      background-color: #333;
+    }
+    .header-links .github-btn:hover {
+      background-color: #000;
+    }
+    .header-links .medium-btn {
+      background-color: #00ab6c;
+    }
+    .header-links .medium-btn:hover {
+      background-color: #007a4c;
+    }
+    .header-links .linkedin-btn {
+      background-color: #0077b5;
+    }
+    .header-links .linkedin-btn:hover {
+      background-color: #005582;
+    }
+    .header-links .bi {
+      margin-right: 8px;
+    }
+    .app-heading {
+      font-size: 2rem;
+      color: #6c5ce7;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .app-heading img {
+      height: 50px;
+      margin-right: 10px;
+    }
+    /* Separator Line */
+    .separator {
+      width: 100%;
+      height: 4px;
+      background-image: linear-gradient(135deg, #6c5ce7, #a29bfe);
+      border-radius: 2px;
+      margin-bottom: 20px;
+    }
+    /* Footer */
+    .footer {
+      background-color: #6c5ce7;
+      color: #ecf0f1;
+      text-align: center;
+      font-size: 0.9rem;
+      padding: 20px 0;
+      margin-top: auto; /* Keeps footer at bottom */
+    }
+    .footer h5 {
+      font-weight: bold;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+    .footer a {
+      color: #ffffff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer a:hover {
+      color: #dfe6e9;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <div class="container my-5">
+      <div class="d-flex justify-content-between align-items-center">
+        <!-- App Heading with Icon -->
+        <h2 class="app-heading">
+          <img src="https://img.icons8.com/ios-filled/50/000000/dog.png" alt="Dog Icon"> Dog Breed Prediction App
+        </h2>
+        
+        <!-- Links to GitHub, Medium, and LinkedIn with icons -->
+        <div class="header-links">
+          <a href="https://github.com/your-github-link" target="_blank" class="link-btn github-btn">
+            <i class="bi bi-github"></i> GitHub
+          </a>
+          <a href="https://medium.com/your-medium-link" target="_blank" class="link-btn medium-btn">
+            <i class="bi bi-medium"></i> Medium
+          </a>
+          <a href="https://linkedin.com/in/your-linkedin-link" target="_blank" class="link-btn linkedin-btn">
+            <i class="bi bi-linkedin"></i> LinkedIn
+          </a>
+        </div>
+      </div>
+      
+      <!-- Beautiful Separator Line -->
+      <div class="separator"></div>
+
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <!-- Card for Upload, Preview, and Output -->
+          <div class="card">
+            <!-- Image Upload Form -->
+            <form id="uploadForm">
+              <div class="text-center custom-upload">
+                <label for="imageInput">
+                  <i class="bi bi-upload me-2"></i> Choose a Dog Image
+                </label>
+                <input type="file" id="imageInput" accept="image/*" style="opacity: 0; position: absolute; z-index: 2; cursor: pointer; width: 100%;" required>
+              </div>
+              <!-- Preview Area -->
+              <div id="previewArea" class="text-center">
+                <h5>Selected Image Preview</h5>
+                <img id="previewImage" src="#" alt="Preview Image" class="preview-img mb-3">
+              </div>
+              <button type="submit" class="btn btn-primary w-100">Submit</button>
+            </form>
+
+            <!-- Output Area -->
+            <div class="mt-4 text-center" id="outputArea">
+              <h5>Prediction Result</h5>
+              <img id="outputImage" src="#" alt="Uploaded Dog Image" class="output-img mb-3">
+              <p class="fw-bold" id="breedName">Breed Name</p>
+            </div>
+
+            <!-- Clear Button (Initially hidden) -->
+            <button id="clearButton" class="btn btn-danger w-100 mt-2">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Professional Footer Section -->
+  <footer class="footer">
+    <h5>Developed by <a href="https://kushwahapankaj.com" target="_blank">Pankaj Kushwaha</a></h5>
+    <a href="https://kushwahapankaj.com" target="_blank">kushwahapankaj.com</a>
+  </footer>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JavaScript to handle file upload, preview, and display the result -->
+  <script>
+    const imageInput = document.getElementById("imageInput");
+    const previewImage = document.getElementById("previewImage");
+    const previewArea = document.getElementById("previewArea");
+
+    // Show image preview when file is selected
+    imageInput.addEventListener("change", function () {
+      const file = imageInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          previewImage.src = e.target.result;
+          previewArea.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Handle the submission event
+    document.getElementById("uploadForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+      const imageInput = document.getElementById("imageInput").files[0];
+      if (imageInput) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          document.getElementById("outputImage").src = e.target.result;
+          document.getElementById("outputArea").style.display = "block";
+          document.getElementById("clearButton").style.display = "block"; // Show the Clear button
+
+          // Hide the preview after submission
+          previewArea.style.display = "none";
+          previewImage.src = "#";
+        };
+        reader.readAsDataURL(imageInput);
+
+        // Simulated Prediction Result (Replace this with actual prediction logic)
+        document.getElementById("breedName").textContent = "Predicted Breed: Golden Retriever";
+      }
+    });
+
+    // Clear button functionality
+    document.getElementById("clearButton").addEventListener("click", function () {
+      document.getElementById("uploadForm").reset(); // Clear the form
+      document.getElementById("outputArea").style.display = "none"; // Hide the output area
+      document.getElementById("clearButton").style.display = "none"; // Hide the Clear button
+      previewArea.style.display = "none"; // Hide preview
+      document.getElementById("previewImage").src = "#"; // Reset preview image source
+      document.getElementById("outputImage").src = "#"; // Reset output image source
+      document.getElementById("breedName").textContent = ""; // Clear breed name
+    });
+  </script>
+</body>
+</html>
+
