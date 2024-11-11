@@ -2,6 +2,8 @@
 
 This web application uses a deep learning model to predict the breed of a dog based on an uploaded image. The app is built with Django for the backend, and a convolutional neural network (CNN) model trained to classify various dog breeds.
 
+![image](https://github.com/user-attachments/assets/cda0b33b-4d68-4cf9-96fe-4a11418da24f)
+
 # Features
 
 - Upload an image of a dog to receive breed prediction.
